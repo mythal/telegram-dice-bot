@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='telegram-dice-bot',
+    name='telegram_dice_bot',
     version='1.0',
     # Modules to import from other scripts:
     packages=find_packages(),

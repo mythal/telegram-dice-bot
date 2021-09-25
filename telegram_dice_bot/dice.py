@@ -3,7 +3,7 @@ import enum
 import typing
 
 from pypeg2 import *
-from entities import Entity, RollResult, Span
+from .entities import Entity, RollResult, Span
 
 
 class DiceErrorKind(enum.Enum):

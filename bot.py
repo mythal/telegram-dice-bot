@@ -14,7 +14,7 @@ from faker import Faker
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent, ParseMode
 from telegram.ext import Updater, CommandHandler, InlineQueryHandler, CallbackContext
 
-import dice
+from telegram_dice_bot import dice
 
 MAX_FACE = 1000
 MAX_NUM = 200
