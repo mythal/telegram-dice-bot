@@ -13,7 +13,7 @@
     telegram-dice-bot = with pkgs.python3Packages; buildPythonPackage {
       pname = "telegram-dice-bot";
       version = "1.0";
-      propagatedBuildInputs = [ python-telegram-bot python-dotenv mcrcon ];
+      propagatedBuildInputs = [ python-telegram-bot python-dotenv pypeg2 faker ];
       src = ./.;
     };
   in {
