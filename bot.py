@@ -42,10 +42,10 @@ class Dice:
     def roll(self) -> int:
         return secrets.randbelow(self.face) + 1
 
-    def roll_n(self, dice_num) -> [int]:
+    def roll_n(self, dice_num) -> List[int]:
         return [self.roll() for _ in range(dice_num)]
 
-    def display(self, roll_result: [int]):
+    def display(self, roll_result: List[int]):
         result = ", ".join(["{}".format(r) for r in roll_result])
         num = len(roll_result)
         if num == 1:
@@ -214,7 +214,7 @@ def coc7stats(update: Update, context: CallbackContext, args: List[str]):
 DICE_TYPE_PATTERN = re.compile(r'^d(\d+)')
 
 
-def set_default_dice(update: Update, context: CallbackContext, args: [str], chat_data: dict):
+def set_default_dice(update: Update, context: CallbackContext, args: List[str], chat_data: dict):
     message = update.message
     assert isinstance(message, telegram.Message)
 
@@ -241,7 +241,7 @@ def set_default_dice(update: Update, context: CallbackContext, args: [str], chat
 DICE_ROLL_PATTERN = re.compile(r'^(\d+)d(\d+)$')
 
 
-def command_roll(update: Update, context: CallbackContext, args: [str], chat_data: dict):
+def command_roll(update: Update, context: CallbackContext, args: List[str], chat_data: dict):
     msg = update.message
     assert isinstance(msg, telegram.Message)
     try:
@@ -361,7 +361,7 @@ def coc_trait(update: Update, context: CallbackContext):
     msg.reply_text(message)
 
 
-def select(_, update: Update, args: [str]):
+def select(_, update: Update, args: List[str]):
     message = update.message
     assert isinstance(message, telegram.Message)
     message.reply_text(choice(args))
