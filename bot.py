@@ -193,9 +193,10 @@ def coc7stats_text(age=None):
     return stats_text
 
 
-def coc7stats(update: Update, context: CallbackContext, args: List[str]):
+def coc7stats(update: Update, context: CallbackContext):
     message = update.message
     assert isinstance(message, telegram.Message)
+    args = context.args
 
     if len(args) == 0:
         age = None
@@ -241,9 +242,11 @@ def set_default_dice(update: Update, context: CallbackContext, args: List[str], 
 DICE_ROLL_PATTERN = re.compile(r'^(\d+)d(\d+)$')
 
 
-def command_roll(update: Update, context: CallbackContext, args: List[str], chat_data: dict):
+def command_roll(update: Update, context: CallbackContext):
     msg = update.message
     assert isinstance(msg, telegram.Message)
+    args = context.args
+    chat_data = context.chat_data
     try:
         _, text = dice.roll(' '.join(args), chat_data.get('dice', 100))
         msg.reply_text(text, parse_mode='HTML')
@@ -361,7 +364,8 @@ def coc_trait(update: Update, context: CallbackContext):
     msg.reply_text(message)
 
 
-def select(_, update: Update, args: List[str]):
+def select(context: CallbackContext, update: Update):
+    args = context.args
     message = update.message
     assert isinstance(message, telegram.Message)
     message.reply_text(choice(args))
@@ -390,9 +394,10 @@ LOCALE_NAME = {
 
 
 def random_text(method_name):
-    def command(_, update, args):
+    def command(update, context: CallbackContext):
         message = update.message
         assert isinstance(message, telegram.Message)
+        args = context.args
         locale = 'zh_CN'
         if len(args) > 0:
             name = args[0]
@@ -505,19 +510,19 @@ def dnd5e_attributes(update: telegram.Update, context: CallbackContext):
 def main():
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler('r', command_roll, pass_args=True, pass_chat_data=True))
-    dispatcher.add_handler(CommandHandler('coc7', coc7stats, pass_args=True))
+    dispatcher.add_handler(CommandHandler('r', command_roll))
+    dispatcher.add_handler(CommandHandler('coc7', coc7stats))
     dispatcher.add_handler(CommandHandler('dnd5e', dnd5e_attributes))
     dispatcher.add_handler(CommandHandler('coctrait', coc_trait))
-    dispatcher.add_handler(CommandHandler('name', random_text('name'), pass_args=True))
-    dispatcher.add_handler(CommandHandler('male', random_text('name_male'), pass_args=True))
-    dispatcher.add_handler(CommandHandler('female', random_text('name_female'), pass_args=True))
-    dispatcher.add_handler(CommandHandler('company', random_text('company'), pass_args=True))
-    dispatcher.add_handler(CommandHandler('address', random_text('address'), pass_args=True))
-    dispatcher.add_handler(CommandHandler('city', random_text('city'), pass_args=True))
-    dispatcher.add_handler(CommandHandler('decide', select, pass_args=True))
-    dispatcher.add_handler(CommandHandler('choice', select, pass_args=True))
-    dispatcher.add_handler(CommandHandler('select', select, pass_args=True))
+    dispatcher.add_handler(CommandHandler('name', random_text('name')))
+    dispatcher.add_handler(CommandHandler('male', random_text('name_male')))
+    dispatcher.add_handler(CommandHandler('female', random_text('name_female')))
+    dispatcher.add_handler(CommandHandler('company', random_text('company')))
+    dispatcher.add_handler(CommandHandler('address', random_text('address')))
+    dispatcher.add_handler(CommandHandler('city', random_text('city')))
+    dispatcher.add_handler(CommandHandler('choice', select))
+    dispatcher.add_handler(CommandHandler('select', select))
+    dispatcher.add_handler(CommandHandler('decide', select))
     dispatcher.add_handler(InlineQueryHandler(inline_query))
 
     updater.start_polling()
