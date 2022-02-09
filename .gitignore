@@ -2,3 +2,5 @@ venv/
 .env
 result
 __pycache__
+.idea/
+.vscode/
