@@ -364,7 +364,7 @@ def coc_trait(update: Update, context: CallbackContext):
     msg.reply_text(message)
 
 
-def select(context: CallbackContext, update: Update):
+def select(update: Update, context: CallbackContext):
     args = context.args
     message = update.message
     assert isinstance(message, telegram.Message)
